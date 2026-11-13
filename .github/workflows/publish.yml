@@ -28,6 +28,7 @@ jobs:
       - run: npm ci
       - name: Check the tag names the version in package.json
         run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+      - run: npm run lint
       - run: npm test
       - name: Publish it
         env:

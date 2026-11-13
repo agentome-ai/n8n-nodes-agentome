@@ -77,7 +77,7 @@ export class AgentomeTrigger implements INodeType {
   methods = {
     loadOptions: {
       async getAgents(this: ILoadOptionsFunctions) {
-        return [{ name: 'Any agent', value: '' }, ...(await listOf.call(this, '/api/agents', 'agents'))];
+        return [{ name: 'Any Agent', value: '' }, ...(await listOf.call(this, '/api/agents', 'agents'))];
       },
     },
   };

@@ -1,8 +1,10 @@
 import {
+  NodeApiError,
   NodeConnectionTypes,
   NodeOperationError,
   sleepWithAbort,
   type IDataObject,
+  type JsonObject,
   type IExecuteFunctions,
   type ILoadOptionsFunctions,
   type INodeExecutionData,
@@ -124,7 +126,7 @@ const properties: INodeProperties[] = [
         name: 'Get Many',
         value: 'getAll',
         description: "Get the tool calls waiting for your decision on your agents, oldest first",
-        action: 'Get waiting approvals',
+        action: 'Get many approvals',
       },
       {
         name: 'Approve',
@@ -318,7 +320,7 @@ export class Agentome implements INodeType {
       },
       async getAgents(this: ILoadOptionsFunctions) {
         return [
-          { name: "The project's team lead", value: '' },
+          { name: "The Project's Team Lead", value: '' },
           ...(await listOf.call(this, '/api/agents', 'agents')),
         ];
       },
@@ -334,8 +336,14 @@ export class Agentome implements INodeType {
         const list = Array.isArray(json) ? json : [json];
         out.push(...list.map((entry) => ({ json: entry, pairedItem: { item: i } })));
       } catch (error) {
-        if (!this.continueOnFail()) throw error;
-        out.push({ json: { error: (error as Error).message }, pairedItem: { item: i } });
+        if (this.continueOnFail()) {
+          out.push({ json: { error: (error as Error).message }, pairedItem: { item: i } });
+          continue;
+        }
+        // A refusal is already a NodeApiError with Agentome's words, which both classes hand back
+        // as it is; anything else becomes the item's error.
+        if (error instanceof NodeApiError) throw new NodeApiError(this.getNode(), error as unknown as JsonObject);
+        throw new NodeOperationError(this.getNode(), error as Error, { itemIndex: i });
       }
     }
     return [out];

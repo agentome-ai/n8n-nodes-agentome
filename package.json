@@ -24,8 +24,9 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc && node scripts/icons.mjs",
+    "lint": "n8n-node lint",
     "test": "npm run build && node --test test/*.test.mjs",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm run lint && npm test"
   },
   "files": [
     "dist"
@@ -42,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "@n8n/node-cli": "0.56.3",
+    "eslint": "9.39.4",
     "n8n-workflow": "2.16.0",
     "typescript": "5.9.3"
   },

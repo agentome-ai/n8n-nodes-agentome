@@ -2,7 +2,7 @@
   "node": "n8n-nodes-agentome.agentomeTrigger",
   "nodeVersion": "1.0",
   "codexVersion": "1.0",
-  "categories": ["Development", "AI"],
+  "categories": ["Development", "Productivity"],
   "resources": {
     "credentialDocumentation": [{ "url": "https://agentome.ai/docs/api/" }],
     "primaryDocumentation": [{ "url": "https://github.com/agentome-ai/n8n-nodes-agentome#readme" }]
