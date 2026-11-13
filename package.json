@@ -1,0 +1,51 @@
+{
+  "name": "n8n-nodes-agentome",
+  "version": "0.1.0",
+  "description": "n8n nodes for Agentome: give an agent a task, wait for its result, decide its approvals, and start a workflow when a run ends.",
+  "license": "MIT",
+  "homepage": "https://agentome.ai",
+  "keywords": [
+    "n8n-community-node-package",
+    "agentome",
+    "ai agents",
+    "claude code",
+    "codex"
+  ],
+  "author": {
+    "name": "Agentome",
+    "email": "hello@agentome.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentome-ai/n8n-nodes-agentome.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc && node scripts/icons.mjs",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/AgentomeApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Agentome/Agentome.node.js",
+      "dist/nodes/AgentomeTrigger/AgentomeTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "n8n-workflow": "2.16.0",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
