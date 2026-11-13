@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-      - run: npm ci
+      # No install scripts: they build native modules (isolated-vm) that only n8n's tooling pulls in.
+      - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm test

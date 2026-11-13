@@ -25,7 +25,8 @@ jobs:
         with:
           node-version-file: .nvmrc
           registry-url: https://registry.npmjs.org
-      - run: npm ci
+      # No install scripts: they build native modules (isolated-vm) that only n8n's tooling pulls in.
+      - run: npm ci --ignore-scripts
       - name: Check the tag names the version in package.json
         run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
       - run: npm run lint
